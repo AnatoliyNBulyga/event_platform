@@ -27,8 +27,7 @@ export async function POST(req: Request) {
     }
 
     // Get the body
-    const payload = await req.json()
-    const body = JSON.stringify(payload);
+    const body = await req.text();
 
     // Create a new Svix instance with your secret.
     const wh = new Webhook(WEBHOOK_SECRET);
@@ -49,10 +48,12 @@ export async function POST(req: Request) {
         })
     }
 
-    // Do something with the payload
-    // For this guide, you simply log the payload to the console
+    // Get the ID and type
     const { id } = evt.data;
     const eventType = evt.type;
+
+    console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
+    console.log('Webhook body:', body)
 
     if (eventType === 'user.created') {
         console.log('CREATED user')
